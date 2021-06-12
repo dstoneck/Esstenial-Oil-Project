@@ -1,0 +1,31 @@
+{% extends 'entry.html' %}
+
+{% block head %}
+<title>Proxy</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Proxy</h1>
+    <table>
+        <tr>
+            <th>Avaliable Dates:</th>
+            <th>Select:</th>
+        </tr>
+        <form action="/" method="POST">
+        {% for line in dirlist %}
+            <tr>
+                <td><label for="{{ line }}">{{ line }}</label></td>
+                <td><input type="radio" name="date" id="{{ line }}" value="{{ line }}"></td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td><label for="new">Create New Date</label></td>
+            <td><input type="radio" name="date" id="new" value="new"></td>
+        </tr>
+    </table>
+    <input type="submit" value="Submit">
+    </form>
+
+</div>
+{% endblock %}

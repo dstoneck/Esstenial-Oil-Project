@@ -1,0 +1,36 @@
+{% extends 'entry.html' %}
+
+{% block head %}
+    <title>Confirm Creatation</title>
+{% endblock %}
+
+{% block body %}
+<div class = "content">
+    
+    {% if status[0] in 'Completed' %}
+        <h1 style="text-align: center">Created Directory</h1>
+        <h3 style="text-align: center; color: green">Completed</h3>
+        <p>{{ status[1] }}</p>
+    {% elif status[0] in 'Error' %}
+        <h1 style="text-align: center">Error</h1>
+        <h3 style="text-align: center; color: red">Error</h3>
+        <p>{{ status[1] }}</p>
+    {% elif status[0] == 'Set' %}
+        <h1 style="text-align: center">Set {{ status[0] }}</h1>
+        <h3 style="text-align: center; color: green">{{ status[1] }}</h3>
+    {% else %}
+        <h1 style="text-align: center">No Data</h1>
+        <h3 style="text-align: center; color: purple">No Data</h3>
+        <p>No data is entered, Go back and re-enter select your data</p>
+    {% endif %}
+    {% if datestamp != None %}
+        <form action="/{{ datestamp }}/applist" style="text-align: center">
+        <button class="continue">continue</button>
+        </form>
+    {% else %}
+        <form action="/">
+        <button class="Home" style="text-align: center;">Home</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'entry.html' %}
+
+{% block head %}
+    <title>Final Confirmation</title>
+{% endblock %}
+
+{% block body %}
+<div class="dropdown">
+    <button onclick="approve()" class="dropbtn">Approve</button>
+        <div id="approve" class="dropdown-content">
+            <a href="/{{ datestamp }}/approved">Approve</a>
+        </div>
+    </div>
+    <div class="content">
+        <h1>Final Confirmation</h1>
+        {% if state != '' %}
+            <p>{{ state }}</p>
+        {% endif %}
+    </div>
+    <div class="contabl">
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Line</th>
+                <th>File</th>
+                <th>Application</th>
+                <th>State</th>
+                <th>Orignal</th>
+                <th>Changed</th>
+                <th>Comments</th>
+                <th>Options</th>
+            </tr>
+            {% for num in range(0, len) %}
+                <tr>
+                    <th>{{ cdate[num] }}</th>
+                    <th>{{ cline[num] }}</th>
+                    <th>{{ cfile[num] }}</th>
+                    <th>{{ capp[num] }}</th>
+                    <th>{{ cstate[num] }}</th>
+                    <th>{{ corig[num] }}</th>
+                    <th>{{ cchg[num] }}</th>
+                    <th>{{ ccom[num] }}</th>
+                    <th>    
+                        {% if cstate[num] == "removed" %}
+                            <form action="/{{ datestamp }}/confirm" method="POST">
+                                <input type="hidden" id="restore" name="restore" value="{{ cline[num] }},{{ cfile[num] }},{{ capp[num] }},{{ corig[num] }},{{ ccom[num] }}">
+                                <input type="submit" value="restore">
+                            </form>
+                        {% else %}
+                            <a href="/{{ dstamp }}/{{ cfile[num] }}/{{ capp[num] }}">Update</a>
+                        {% endif %}
+                    </th>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <script>
+        /* When the user clicks on the button, 
+        toggle between hiding and showing the dropdown content */
+        function approve() {
+          document.getElementById("approve").classList.toggle("show");
+        }
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
+        </script>
+{% endblock %}

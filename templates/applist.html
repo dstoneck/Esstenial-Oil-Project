@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Proxy: Application List</title>
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <h1 style="text-align: center">Proxy: Application List</h1>
+        {% if applist|length < 1 %}
+            <h4 style="text-align: center">There was error finding list of apps</h4>
+        {% else %}
+            <table>
+                <tr>
+                    <th>Application</th>
+                    <th>Actions</th>
+                </tr>
+                {% for app in applist %}
+                    <tr>
+                        <td>{{ app }}</td>
+                        <td>
+                            <a href="/{{ datestamp }}/whitelist/{{ app }}">Whitelist</a>
+                            <br>
+                            <a href="/{{ datestamp }}/cidr/{{ app }}">CIDR</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+{% endblock %}

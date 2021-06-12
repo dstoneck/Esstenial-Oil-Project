@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="dropdown">
+      <button onclick="confirm()" class="dropbtn">Confirm</button>
+      <div id="confirmapp" class="dropdown-content">
+        <a href="/{{ datestamp }}/confirm">Confirm</a>
+      </div>
+      <button onclick="applist()" class="dropbtn">App</button>
+      <div id="applist1" class="dropdown-content">
+          {% for app in applist %}
+              <a href="/{{ datestamp }}/{{ app }}">{{ app }}</a>
+          {% endfor %}
+      </div>
+        <button onclick="workdir()" class="dropbtn">{{ datestamp }}</button>
+        <div id="dirwork" class="dropdown-content">
+            {% for date in dirlist %}
+                <a href="/{{ date }}/applist">{{ date }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    {% block body %}{% endblock %}
+    <script>
+        /* When the user clicks on the button, 
+        toggle between hiding and showing the dropdown content */
+        function workdir() {
+          document.getElementById("dirwork").classList.toggle("show");
+        }
+        
+        function confirm() {
+          document.getElementById("confirmapp").classList.toggle("show");
+        }
+
+        function applist() {
+          document.getElementById("applist1").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
+        </script>
+</body>
+</html>

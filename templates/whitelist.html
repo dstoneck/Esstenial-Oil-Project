@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>{{ app }}: Whitelist</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">{{ app }}: Whitelist</h1>
+    {% if white|length < 1 %}
+    <h4 style="text-align: center">Whitelist is empty</h4>
+    {% else %}
+        {% if state[0] == 'add' %}
+        <div class='notifygreen'>
+            <p>Added to list {{ state[1] }}<p>
+        </div>
+        {% elif state[0] == 'remove' %}
+        <div class='notifyred'>
+            <p>Following was Removed: {{ state[1] }}<p>
+        </div>
+        {% endif %}
+    <table>
+        <tr>
+            <th>Application</th>
+            <th>Actions</th>
+        </tr>
+        {% for i in range(0, len) %}
+            <tr>
+                {% if state[1] == white[i] %}
+                    <td style="background-color: lightgreen;">
+                {% else %}
+                    <td>
+                {% endif %}
+                    <div class="form">
+                        <form action="/{{ datestamp }}/whitelist/{{ app }}" method="POST">
+                            <input type="hidden" id="olist" name="olist" value="{{ white[i] }}">
+                            <label for="wlist">Address: </label>
+                            <input type="text" name="wlist" id="wlist" value="{{ white[i] }}"><br>
+                            <label for="comments">Comments: </label>
+                            <input type="text" name="comments" id="comments" value="{{ comments[i] }}">
+                </td>
+                {% if state[1] == white[i] %}
+                    <td style="background-color: lightgreen;">
+                {% else %}
+                    <td>
+                {% endif %}
+                            <input type="submit" value="Update">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <form action="/{{ datestamp }}/whitelist/{{ app }}" method="POST">
+                    <input type="hidden" id="olist" name="olist" value="">
+                    <label for="wlist">Address: </label>
+                    <input type="text" name="wlist" id="wlist" value=""><br>
+                    <label for="comments">Comments: </label>
+                    <input type="text" name="comments" id="comments" value="">
+            </td>
+            <td>
+                    <input type="submit" value="Add">
+                </form>
+            </td>
+        </tr>
+    </table>
+    {% endif %}
+
+</div>
+
+{% endblock %}

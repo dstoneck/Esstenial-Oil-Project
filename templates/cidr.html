@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>{{ app }}: CIDR</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">{{ app }}: CIDR</h1>
+    {% if cidr|length < 1 %}
+    <h4 style="text-align: center">CIDR List is empty</h4>
+    {% else %}
+        {% if state[0] == 'add' %}
+        <div class='notifygreen'>
+            <p>Added to list {{ state[1] }}<p>
+        </div>
+        {% elif state[0] == 'remove' %}
+        <div class='notifyred'>
+            <p>Following was Removed: {{ state[1] }}<p>
+        </div>
+        {% endif %}
+    <table>
+        <tr>
+            <th>CIDR</th>
+            <th>Actions</th>
+        </tr>
+        {% for i in range(0, len) %}
+            <tr>
+                {% if state[1] == cidr[i] %}
+                    <td style="background-color: lightgreen;">
+                {% else %}
+                    <td>
+                {% endif %}
+                    <div class="form">
+                        <form action="/{{ datestamp }}/cidr/{{ app }}" method="POST">
+                            <input type="hidden" id="ocidr" name="ocidr" value="{{ cidr[i] }}">
+                            <label for="ncidr">Address: </label>
+                            <input type="text" name="ncidr" id="ncidr" value="{{ cidr[i] }}"><br>
+                            <label for="comments">Comments: </label>
+                            <input type="text" name="comments" id="comments" value="{{ comments[i] }}">
+                </td>
+                {% if state[1] == cidr[i] %}
+                    <td style="background-color: lightgreen;">
+                {% else %}
+                    <td>
+                {% endif %}
+                            <input type="submit" value="Update">
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <form action="/{{ datestamp }}/cidr/{{ app }}" method="POST">
+                    <input type="hidden" id="ocidr" name="ocidr" value="">
+                    <label for="ncidr">Address: </label>
+                    <input type="text" name="ncidr" id="ncidr" value=""><br>
+                    <label for="comments">Comments: </label>
+                    <input type="text" name="comments" id="comments" value="">
+            </td>
+            <td>
+                    <input type="submit" value="Add">
+                </form>
+            </td>
+        </tr>
+    </table>
+    {% endif %}
+
+</div>
+
+{% endblock %}
